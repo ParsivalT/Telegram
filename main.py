@@ -32,4 +32,4 @@ while True:
         print('Api offline, Tente denovo mais tarde!')
 
 
-    sleep(60)
+    sleep(300)
