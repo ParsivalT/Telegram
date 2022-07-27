@@ -9,13 +9,14 @@ class CoinGeckoAPI:
 
         
     def ping(self) -> bool:
+        print('='*30)
         print('Verificando se API online...')
         url = f'{self.url_base}/ping'
         return requests.get(url).status_code == 200
 
 
     def consulta_preco(self, id_moeda: str) -> tuple:
-        print(f'Consultando preco da moeda de ID = {id_moeda}...')
+        print(f'Consultando preco do(a): {id_moeda}...')
         url = f'{self.url_base}/simple/price?ids={id_moeda}&vs_currencies=BRL&include_last_updated_at=true'
 
         resposta = requests.get(url)
@@ -27,7 +28,6 @@ class CoinGeckoAPI:
             horario = dados_moeda.get('last_updated_at', None)
 
             return preco, horario
-
 
         else:
             raise ValueError('Codigo de resposta diferente de HTTP 200 ok')
