@@ -1,41 +1,34 @@
-# bot do telegram para monitorar a cotacao de criptos
-# version: 0.0.1
-
+# Chat_Id 1512304430
 from datetime import datetime
-from classes import CoinGeckoAPI, TelegramBot 
+from classes import CoinGeckoAPI, TelegramBot, dolar
 from time import sleep
-import locale
-import config
 
-locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
 
 api = CoinGeckoAPI(url_base='https://api.coingecko.com/api/v3')
-bot = TelegramBot(token=config.token, chat_id=config.chat_id)
+bot = TelegramBot(token='5550528443:AAHD2RjvRdzvwRJIOlR0ieOUCgYBPxJUoeQ', chat_id=1512304430)
 
-while True:
 
-    if api.ping():
-        print('\nAPI online!')
-        print(f'Horario: {datetime.now().ctime()}')
-        preco, atualizado_em = api.consulta_preco(id_moeda='bitcoin')
-        print('Consulta realizada com sucesso!')
+if api.ping():
+    print('API online!')
+    preco, atualizado_em = api.consulta_preco(id_moeda='bitcoin')
+    print('Consulta realizada com sucesso!')
 
-        data_hora = datetime.fromtimestamp(atualizado_em).strftime('%x %X')
-        mensagem = None
+    data_hora = datetime.fromtimestamp(atualizado_em).strftime('%x %X')
+    mensagem = list()
+    dolar = dolar()
 
-        if preco < 113_500:
-            mensagem = f'*Cotacao do Ethereum*: \n\t*Preco*: {locale.currency(preco, grouping=True)}' \
-                       f'\n\t*Horario*: {data_hora}\n\t*Motivo*: Valor menor que o minimo'
+    mensagem.append(f'*Ultimas Atualizações*')
+    mensagem.append(f'*Cotação do Dolar:* \n\t*Preço*: R$ {dolar[0]:.2f}' \
+                f'\n\t*Variação de:* {dolar[1]}%')
+    mensagem.append(f'*Cotação do Ethereum*: \n\t*Preço*: R$ {preco:,.2f}' \
+                f'\n\t*Horario*: {data_hora}\n\t')
 
-        elif preco > 114_000:
-            mensagem = f'*Cotacao do Ethereum*: \n\t*Preco*: {locale.currency(preco, grouping=True)}' \
-                       f'\n\t*Horario*: {data_hora}\n\t*Motivo*: Valor maior que o maximo'
+    for mensagens in mensagem:
+        bot.envia_mensagem(texto_markdown=mensagens)
 
-        if mensagem:
-            bot.envia_mensagem(texto_markdown=mensagem)
+    print("Menssagens Enviadas Com Sucesso!")
+    
+else:
+    print('Api offline, Tente denovo mais tarde!')
 
-        print('='*30)
-    else:
-        print('Api offline, Tente denovo mais tarde!')
 
-    sleep(300)
