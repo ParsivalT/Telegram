@@ -8,14 +8,12 @@ class CoinGeckoAPI:
 
         
     def ping(self) -> bool:
-        print('Verificando se API online...')
         url = f'{self.url_base}/ping'
         return requests.get(url).status_code == 200
 
 
 
     def consulta_preco(self, id_moeda: str) -> tuple:
-        print(f'Consultando preco da moeda de ID = {id_moeda}...')
         url = f'{self.url_base}/simple/price?ids={id_moeda}&vs_currencies=BRL&include_last_updated_at=true'
 
         resposta = requests.get(url)
@@ -59,7 +57,6 @@ def dolar() -> list:
 
     else:
         if dados:
-            print("\033[36mConsultado Cotação Do dolar!\033[m")
 
             dolar = dados.json()
             preco = float(dolar["USDBRL"]["bid"])
