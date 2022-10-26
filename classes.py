@@ -1,5 +1,10 @@
 import requests
 import telegram
+import logging
+
+LOG_FORMAT = 'Data/Hora: %(asctime)s | LEVEL:%(levelname)s | Mensagem:%(message)s'
+logging.basicConfig(filename="relatorio.log", level=logging.DEBUG, format=LOG_FORMAT)
+LOG = logging.getLogger()
 
 
 class CoinGeckoAPI:
@@ -8,10 +13,12 @@ class CoinGeckoAPI:
 
         
     def ping(self) -> bool:
-        url = f'{self.url_base}/ping'
-        return requests.get(url).status_code == 200
+        try:
+            url = f'{self.url_base}/ping'
+            return requests.get(url).status_code == 200
 
-
+        except:
+            LOG.error("Falha ao tentar acessar a API")
 
     def consulta_preco(self, id_moeda: str) -> tuple:
         url = f'{self.url_base}/simple/price?ids={id_moeda}&vs_currencies=BRL&include_last_updated_at=true'
@@ -28,11 +35,10 @@ class CoinGeckoAPI:
 
 
         else:
-            raise ValueError('Codigo de resposta diferente de HTTP 200 ok')
+           LOG.error('Codigo de resposta diferente de HTTP 200 ok')
 
 
         
-
 class TelegramBot:
     def __init__(self, token: str, chat_id: int):
         self.bot = telegram.Bot(token=token)
@@ -53,7 +59,7 @@ def dolar() -> list:
         dados = requests.get("https://economia.awesomeapi.com.br/last/USD-BRL")
 
     except ConnectionError: 
-        print("Verifique a conexão Com a Internet! :(")
+        LOG.error("Erro ao tentar consultar a API")
 
     else:
         if dados:
@@ -65,5 +71,5 @@ def dolar() -> list:
             return preco, variacao
 
         else:
-            print('Problemas ao Consultar a Api!')
+            LOG.error("Problemas ao extrair os dados")
 
