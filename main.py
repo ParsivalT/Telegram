@@ -4,10 +4,13 @@ from datetime import datetime
 from classes import CoinGeckoAPI, TelegramBot, dolar, LOG
 from time import sleep
 import schedule
+from dotenv import load_dotenv
+import os 
 
+load_dotenv()
 
 API = CoinGeckoAPI(url_base='https://api.coingecko.com/api/v3')
-BOT = TelegramBot(token='5550528443:AAGgtgrN4j8sdppddbqE1gnyIvExz2sJUrQ', chat_id=1512304430)
+BOT = TelegramBot(token=os.environ(['TOKEN']), chat_id=os.environ(['CHAT']))
 
 def bot_telegram():
 
