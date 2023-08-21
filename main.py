@@ -32,7 +32,7 @@ def bot_telegram():
     else:
         LOG.warning('Api offline, Tente denovo mais tarde!')
 
-schedule.every(5).seconds.do(bot_telegram)
+schedule.every(4).hours.do(bot_telegram)
 
 while True:
     schedule.run_pending()
