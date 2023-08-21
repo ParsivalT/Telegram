@@ -7,7 +7,7 @@ import schedule
 
 
 API = CoinGeckoAPI(url_base='https://api.coingecko.com/api/v3')
-BOT = TelegramBot(token='5550528443:AAHD2RjvRdzvwRJIOlR0ieOUCgYBPxJUoeQ', chat_id=1512304430)
+BOT = TelegramBot(token='5550528443:AAGgtgrN4j8sdppddbqE1gnyIvExz2sJUrQ', chat_id=1512304430)
 
 def bot_telegram():
 
