@@ -32,5 +32,5 @@ CHAT=seu_id_de_chat_do_telegram
 
 ```bash
 python main.py
-``
+```
 
