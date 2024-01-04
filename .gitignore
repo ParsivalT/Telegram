@@ -7,6 +7,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+relatorio.log
 # C extensions
 *.so
 
